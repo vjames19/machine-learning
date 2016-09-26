@@ -30,9 +30,9 @@ J = cost + regularizationTerm;
 regularizationVector = (lambda / m) * theta;
 
 % Don't regularize term theta(1)
-regularizationVector(1) = 0;
+regularizationVector(1, 1) = 0;
 
-grad = (((h - y)' * X) / m) + regularizationVector;
+grad = (X' * ((h - y)) / m) + regularizationVector;
 
 % =============================================================
 
