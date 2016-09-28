@@ -62,9 +62,11 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-h1 = sigmoid([ones(m, 1) X] * Theta1');
-h2 = sigmoid([ones(m, 1) h1] * Theta2');
-h  = h2;
+z1 = [ones(m, 1) X];
+a2 = sigmoid(z1 * Theta1');
+z2 = [ones(m, 1) a2];
+a3 = sigmoid(z2 * Theta2');
+h  = a3;
 
 yOutput = zeros(m, num_labels);
 
@@ -100,7 +102,18 @@ regularizationTerm = (lambda / (2 * m)) * (regularizationTheta1 + regularization
 
 J = cost + regularizationTerm;
 
-% regularizationVector = (lambda / m) * withoutTheta1;
+% backpropagation
+delta3 = a3 - yOutput;
+% delta2 = ((delta3 * Theta2) .* sigmoidGradient(z2))(:, 2:end);
+delta2 = ((delta3 * Theta2) .* (z2 .* (1-z2)))(:, 2:end);
+% delta2 = ((delta3 * Theta2) .* (z2 .* (1-z2));
+% delta2(:, 1) = 0;
+
+
+Theta1_grad = (delta2' * z1 + lambda * Theta1withoutTheta1) / m;
+Theta2_grad = (delta3' * z2 + lambda * Theta2withoutTheta1) / m;
+
+
 % -------------------------------------------------------------
 
 % =========================================================================
