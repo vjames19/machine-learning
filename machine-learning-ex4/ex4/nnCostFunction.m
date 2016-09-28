@@ -63,22 +63,42 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+% h = MxK
+% y = MxK
+% term1 = KxM * M*K
+% term1 = kxm * mxk = KxK
+
+h1 = sigmoid([ones(m, 1) X] * Theta1');
+h2 = sigmoid([ones(m, 1) h1] * Theta2');
+h  = h2;
+
+yOutput = zeros(m, num_labels);
+
+for example = 1:m,
+	yOutput(example, y(example, 1)) = 1;
+end
 
 
+% cost = 0;
+% for example = 1:m,
+% 	for k = 1:num_labels,
+% 		cost = cost + -yOutput(example, k) * log(h(example, k)) - (1 - yOutput(example, k)) * log(1 - h(example, k));
+% 	end
+% end
 
+% cost = cost / m;
 
+% size(yOutput)
+% size(h)
 
+term1 =  -yOutput .* log(h);
+term2 = (1 - yOutput) .* log(1 - h);
+% % term1
+% % term2
+% % term1-term2
+cost = sum(sum((term1 - term2))) / m;
 
-
-
-
-
-
-
-
-
-
-
+J = cost;
 
 % -------------------------------------------------------------
 
