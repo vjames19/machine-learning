@@ -104,11 +104,7 @@ J = cost + regularizationTerm;
 
 % backpropagation
 delta3 = a3 - yOutput;
-% delta2 = ((delta3 * Theta2) .* sigmoidGradient(z2))(:, 2:end);
 delta2 = ((delta3 * Theta2) .* (z2 .* (1-z2)))(:, 2:end);
-% delta2 = ((delta3 * Theta2) .* (z2 .* (1-z2));
-% delta2(:, 1) = 0;
-
 
 Theta1_grad = (delta2' * z1 + lambda * Theta1withoutTheta1) / m;
 Theta2_grad = (delta3' * z2 + lambda * Theta2withoutTheta1) / m;
