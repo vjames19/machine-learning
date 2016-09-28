@@ -44,6 +44,7 @@ withoutTheta1 = theta;
 withoutTheta1(1, 1) = 0;
 
 regularizationTerm = (lambda / (2 * m)) * (withoutTheta1' * withoutTheta1);
+
 J = cost + regularizationTerm;
 
 regularizationVector = (lambda / m) * withoutTheta1;
