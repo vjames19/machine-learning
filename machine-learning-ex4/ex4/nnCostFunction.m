@@ -62,12 +62,6 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-
-% h = MxK
-% y = MxK
-% term1 = KxM * M*K
-% term1 = kxm * mxk = KxK
-
 h1 = sigmoid([ones(m, 1) X] * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
 h  = h2;
@@ -78,7 +72,7 @@ for example = 1:m,
 	yOutput(example, y(example, 1)) = 1;
 end
 
-
+% Without vectorization
 % cost = 0;
 % for example = 1:m,
 % 	for k = 1:num_labels,
@@ -88,18 +82,25 @@ end
 
 % cost = cost / m;
 
-% size(yOutput)
-% size(h)
-
+% with vectorization
 term1 =  -yOutput .* log(h);
 term2 = (1 - yOutput) .* log(1 - h);
-% % term1
-% % term2
-% % term1-term2
 cost = sum(sum((term1 - term2))) / m;
 
-J = cost;
+% Don't regularize term theta(1)
+Theta1withoutTheta1 = Theta1;
+Theta1withoutTheta1(:, 1) = 0;
 
+Theta2withoutTheta1 = Theta2;
+Theta2withoutTheta1(:, 1) = 0;
+
+regularizationTheta1 = sum(sum(Theta1withoutTheta1 .* Theta1withoutTheta1));
+regularizationTheta2 = sum(sum(Theta2withoutTheta1 .* Theta2withoutTheta1));
+regularizationTerm = (lambda / (2 * m)) * (regularizationTheta1 + regularizationTheta2);
+
+J = cost + regularizationTerm;
+
+% regularizationVector = (lambda / m) * withoutTheta1;
 % -------------------------------------------------------------
 
 % =========================================================================
