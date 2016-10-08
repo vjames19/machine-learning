@@ -14,11 +14,9 @@ X_poly = zeros(numel(X), p);
 %               column of X contains the values of X to the p-th power.
 %
 % 
-
-
-
-
-
+exponents = 1:p;
+X_poly = ones(numel(X), p) .* X;
+X_poly = X_poly .^ exponents;
 
 % =========================================================================
 
