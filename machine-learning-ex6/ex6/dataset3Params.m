@@ -22,19 +22,21 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
-values = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30]
+values = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 valuesSize = length(values);
 error = realmax;
 
 for i = 1:valuesSize
-  for j = 1:valuesSize
-    c = values(i);
+  c = values(i);
+  
+  for j = 1:valuesSize  
     s = values(j);
     model= svmTrain(X, y, c, @(x1, x2) gaussianKernel(x1, x2, s));
     predictions = svmPredict(model, Xval);
-    tempError = mean(double(predictions ~= yval))
+    tempError = mean(double(predictions ~= yval));
     
     if (tempError < error)
+      error = tempError;
       C = c;
       sigma = s;
     end
