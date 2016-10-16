@@ -18,7 +18,7 @@ m = size(X, 1);
 
 mu = mean(X);
 
-diff = X - mu
+diff = X - mu;
 sigma2 = sum(diff .* diff) / m;
 
 mu = mu';
